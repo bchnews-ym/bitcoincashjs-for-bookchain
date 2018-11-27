@@ -799,7 +799,7 @@ Transaction.prototype.addDataForBookChain01 = function(author, title) {
  */
 Transaction.prototype.addDataForBookChain02 = function(no, content) {
   this.addOutput(new Output({
-    script: Script.buildDataOutForBookChain01(no, content),
+    script: Script.buildDataOutForBookChain02(no, content),
     satoshis: 0
   }));
   return this;
