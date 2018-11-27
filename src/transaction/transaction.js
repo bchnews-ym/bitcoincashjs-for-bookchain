@@ -765,6 +765,45 @@ Transaction.prototype.addData = function(value) {
   return this;
 };
 
+/**
+ * Add an OP_RETURN output to the transaction for bookchain01.
+ *
+ * Beware that this resets all the signatures for inputs (in further versions,
+ * SIGHASH_SINGLE or SIGHASH_NONE signatures will not be reset).
+ *
+ * @param {Buffer|string} author the author name to be stored in the OP_RETURN output.
+ *    In case of a string, the UTF-8 representation will be stored
+ * @param {Buffer|string} no the no to be stored in the OP_RETURN output.
+ *    In case of a string, the UTF-8 representation will be stored
+ * @return {Transaction} this, for chaining
+ */
+Transaction.prototype.addDataForBookChain01 = function(author, title) {
+  this.addOutput(new Output({
+    script: Script.buildDataOutForBookChain01(author, title),
+    satoshis: 0
+  }));
+  return this;
+};
+
+/**
+ * Add an OP_RETURN output to the transaction for bookchain01.
+ *
+ * Beware that this resets all the signatures for inputs (in further versions,
+ * SIGHASH_SINGLE or SIGHASH_NONE signatures will not be reset).
+ *
+ * @param {Buffer|string} no the no to be stored in the OP_RETURN output.
+ *    In case of a string, the UTF-8 representation will be stored
+ * @param {Buffer|string} content the content text to be stored in the OP_RETURN output.
+ *    In case of a string, the UTF-8 representation will be stored
+ * @return {Transaction} this, for chaining
+ */
+Transaction.prototype.addDataForBookChain02 = function(no, content) {
+  this.addOutput(new Output({
+    script: Script.buildDataOutForBookChain01(no, content),
+    satoshis: 0
+  }));
+  return this;
+};
 
 /**
  * Add an output to the transaction.

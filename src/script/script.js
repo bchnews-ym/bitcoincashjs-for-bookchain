@@ -826,6 +826,56 @@ Script.buildDataOut = function(data, encoding) {
 };
 
 /**
+ * @returns {Script} a new bookchain OP_RETURN script with author and title
+ * @param {(string|Buffer)} author - the author name to embed in the output
+ * @param {(string|Buffer)} title - the title text to embed in the output
+ * @param {(string)} encoding - the type of encoding of the string
+ */
+Script.buildDataOutForBookChain01 = function(author, title, encoding) {
+  $.checkArgument(_.isUndefined(author) || _.isString(author) || BufferUtil.isBuffer(author));
+  $.checkArgument(_.isUndefined(title) || _.isString(title) || BufferUtil.isBuffer(title));
+  if (_.isString(author)) {
+    author = new Buffer(author, encoding);
+  }
+  if (_.isString(title)) {
+    title = new Buffer(title, encoding);
+  }
+
+  var s = new Script();
+  s.add(Opcode.OP_RETURN);
+  s.add(new Buffer('0000b006', 'hex'));
+  s.add(new Buffer('01', encoding));
+  s.add(author);
+  s.add(title);
+  return s;
+};
+
+/**
+ * @returns {Script} a new bookchain OP_RETURN script with no and content
+ * @param {(string|Buffer)} no - the no to embed in the output
+ * @param {(string|Buffer)} content - the content to embed in the output
+ * @param {(string)} encoding - the type of encoding of the string
+ */
+Script.buildDataOutForBookChain02 = function(no, content, encoding) {
+  $.checkArgument(_.isUndefined(no) || _.isString(no) || BufferUtil.isBuffer(no));
+  $.checkArgument(_.isUndefined(content) || _.isString(content) || BufferUtil.isBuffer(content));
+  if (_.isString(no)) {
+    no = new Buffer(no, encoding);
+  }
+  if (_.isString(content)) {
+    content = new Buffer(content, encoding);
+  }
+
+  var s = new Script();
+  s.add(Opcode.OP_RETURN);
+  s.add(new Buffer('0000b006', 'hex'));
+  s.add(new Buffer('02', encoding));
+  s.add(no);
+  s.add(content);
+  return s;
+};
+
+/**
  * @param {Script|Address} script - the redeemScript for the new p2sh output.
  *    It can also be a p2sh address
  * @returns {Script} new pay to script hash script for given script
